@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Live Sports TV</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+
+<body style="background:black;color:white;font-family:sans-serif;text-align:center">
+
+<h1>Live Sports TV</h1>
+
+<p>Select a channel to watch:</p>
+
+<select id="channelSelect">
+  <option value="">Select Channel</option>
+  <!-- Add more channels here -->
+  <option value="https://iptv-org.github.io/iptv/categories/sports.m3u">Sports Playlist</option>
+</select>
+
+<br><br>
+
+<video id="video" width="900" height="500" controls autoplay></video>
+
+<script>
+const video = document.getElementById('video')
+const select = document.getElementById('channelSelect')
+
+select.addEventListener('change', function () {
+    let stream = this.value
+    if(!stream) return
+    if(Hls.isSupported()) {
+        let hls = new Hls()
+        hls.loadSource(stream)
+        hls.attachMedia(video)
+    } else if(video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = stream
+    }
+})
+</script>
+
+</body>
+</html>
